@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 
 
@@ -28,12 +26,26 @@ Route::group(['middleware' => ['auth','isAdmin']], function () {
     Route::get('/dashboard', function () {
         return view('layouts/admin');
     });
-    Route::get('category','Admin\CategoruController@index');
+    Route::get('category/admin','Admin\CategoruController@index');
     Route::post('store_category','Admin\CategoruController@store');
     Route::get('edit_category/{id}','Admin\CategoruController@edit')->name('editCategory');
     Route::put('updateCategory/{id}','Admin\CategoruController@update')->name('updateCategory');
     Route::get('deleteCategory/{id}','Admin\CategoruController@destroy')->name('deleteCategory');
     Route::resource('product','Admin\ProductController');
+    Route::get('create_category','Admin\CategoruController@create');
 
 });
-Route::get('create_category','Admin\CategoruController@create');
+//Route::get('create_category','Admin\CategoruController@create');
+Route::get('front','website\FrontendController@index');
+Route::get('category','website\FrontendController@indexcategory');
+Route::get('category/{slug}','website\FrontendController@categoryproduct');
+Route::get('category/{cate_slug}/{prod_slug}','website\FrontendController@productview');
+
+Route::middleware(['auth'])->group(function (){
+
+    Route::get('cart','website\CartController@viewcart');
+
+});
+Route::post('add_to_cart','website\CartController@addproduct');
+Route::post('delete-cart-item','website\CartController@deleteproduct');
+Route::post('update-cart','website\CartController@updatecart');
