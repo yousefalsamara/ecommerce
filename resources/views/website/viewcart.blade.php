@@ -18,6 +18,7 @@
     <div class="container my-5">
         <div class="card shadow ">
             <div class="card-body">
+                @if($cartitem->count() >0)
                 @php $total=0 @endphp
                 @foreach($cartitem as $item)
                 <div class="row product_data">
@@ -33,6 +34,7 @@
                     </div>
                     <div class="col-md-3 my-auto">
                         <input type="hidden"  class="prod_id" value="{{$item->prod_id}}">
+                        @if ($item->products->qty >= $item->prod_qty)
                         <label for="Quantity">Quantity</label>
                         <div class="input-group text-center mb-3" style="width:130px">
                             <button class="input-group-text changeQuantity decrement-btn">-</button>
@@ -40,6 +42,10 @@
                             <button class="input-group-text changeQuantity increment-btn">+</button>
 
                         </div>
+                            @php $total += $item->products->selling_price * $item->prod_qty @endphp
+                            @else
+                            <h6>Out of Stack</h6>
+                            @endif
                     </div>
                     <div class="col-md-2 my-auto">
                         <button class="btn btn-danger delete-cart-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
@@ -48,14 +54,21 @@
                     </div>
 
                 </div>
-                    @php $total += $item->products->selling_price * $item->prod_qty @endphp
+
                     @endforeach
             </div>
             <div class="card-footer">
                 <he>Total price: {{$total}}$
-                <button class="btn btn-outline-success float-end">proceed to Checkout</button>
+                <a href="{{url('checkout')}}" class="btn btn-outline-success float-end">proceed to Checkout</a>
                 </he>
             </div>
+
+            @else
+                <div class="card-body text-center">
+                    <h2>Your Cart is empty</h2>
+                    <a href="{{url('category')}}" class="btn btn-outline-primary">Continue Shopping</a>
+                </div>
+                @endif
         </div>
     </div>
     @endsection

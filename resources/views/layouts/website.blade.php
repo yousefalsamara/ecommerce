@@ -59,6 +59,12 @@
 
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+@if(session('status'))
+    <script>
+        swal("{{session('status')}}")
+    </script>
+@endif
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Navbar</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,7 +75,7 @@
             <a class="nav-item nav-link active" href="{{url('front')}}">Home <span class="sr-only"></span></a>
             <a class="nav-item nav-link" href="{{url('category')}}">Category</a>
             <a class="nav-item nav-link" href="{{url('cart')}}">Cart</a>
-            <a class="nav-item nav-link disabled" href="#">Disabled</a>
+            <a class="nav-item nav-link " href="{{url('wishlist')}}">Wishlist</a>
             @guest
             @if (Route::has('login'))
                 <li class="nav-item">
@@ -87,8 +93,13 @@
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         {{ Auth::user()->name }}
                     </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li>
+                            <a class="dropdown-item" href="{{url('my-orders')}}">
+                                My Orders
+                            </a>
+                        </li>
+                    <li>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                            onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -98,7 +109,8 @@
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
-                    </div>
+                    </li>
+                    </ul>
                 </li>
             @endguest
 

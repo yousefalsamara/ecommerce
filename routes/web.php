@@ -33,6 +33,13 @@ Route::group(['middleware' => ['auth','isAdmin']], function () {
     Route::get('deleteCategory/{id}','Admin\CategoruController@destroy')->name('deleteCategory');
     Route::resource('product','Admin\ProductController');
     Route::get('create_category','Admin\CategoruController@create');
+    Route::get('order','Admin\OrderController@index');
+    Route::get('admin/view-order/{id}','Admin\OrderController@show');
+    Route::put('update-order/{id}','Admin\OrderController@updateorder');
+    Route::get('order-history','Admin\OrderController@orderhistory');
+
+    Route::get('users','Admin\DashboradController@users');
+    Route::get('view-user/{id}','Admin\DashboradController@showuser');
 
 });
 //Route::get('create_category','Admin\CategoruController@create');
@@ -44,8 +51,17 @@ Route::get('category/{cate_slug}/{prod_slug}','website\FrontendController@produc
 Route::middleware(['auth'])->group(function (){
 
     Route::get('cart','website\CartController@viewcart');
+    Route::get('checkout','website\CheckoutController@index');
+    Route::post('place-order','website\CheckoutController@placeorder');
+    Route::get('my-orders','website\UserController@index');
+    Route::get('view-order/{id}','website\UserController@show');
+    Route::get('wishlist','website\WishlistController@index');
+
+
+
 
 });
 Route::post('add_to_cart','website\CartController@addproduct');
 Route::post('delete-cart-item','website\CartController@deleteproduct');
 Route::post('update-cart','website\CartController@updatecart');
+Route::post('/add_to_wishlist','website\WishlistController@add');
