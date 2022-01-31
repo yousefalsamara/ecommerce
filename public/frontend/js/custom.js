@@ -152,4 +152,31 @@ $(document).ready(function () {
 
 
     });
+
+
+    $('.remove-wishlist-item').click(function (e) {
+        e.preventDefault();
+
+        var prod_id=$(this).closest('.product_data').find('.prod_id').val()
+
+        $.ajax({
+            method:'POST',
+            url:"delete-wishlist-item",
+            data:{
+                'prod_id':prod_id,
+
+            },
+            success:function (response) {
+                //alert(response.status);
+                window.location.reload();
+                swal("",response.status,"success");
+
+
+            }
+
+
+        });
+
+
+    });
 });

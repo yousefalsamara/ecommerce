@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+{{--    <script src="{{ asset('js/app.js') }}" defer></script>--}}
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -20,7 +20,7 @@
 
     <link href="{{ asset('frontend/css/owl.carousel.min.css') }}" rel="stylesheet">
     <link href="{{ asset('frontend/css/owl.theme.default.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+{{--    <link href="{{ asset('css/app.css') }}" rel="stylesheet">--}}
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <!-- JavaScript Bundle with Popper -->
@@ -29,7 +29,6 @@
 
 {{-- <script src="{{asset('frontend/js/jquery-3.6.0.min.js')}}"></script>--}}
 {{--    <script src="{{asset('frontend/js/owl.carousel.min.js')}}"></script>--}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
       <!--font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -54,8 +53,11 @@
 
 
 <script src="{{asset('frontend/js/jquery-3.6.0.min.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
 <script src="{{asset('frontend/js/owl.carousel.min.js')}}"></script>
 <script src="{{asset('frontend/js/custom.js')}}"></script>
+<script src="{{asset('frontend/js/checkout.js')}}"></script>
 
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -74,8 +76,10 @@
         <div class="navbar-nav">
             <a class="nav-item nav-link active" href="{{url('front')}}">Home <span class="sr-only"></span></a>
             <a class="nav-item nav-link" href="{{url('category')}}">Category</a>
-            <a class="nav-item nav-link" href="{{url('cart')}}">Cart</a>
-            <a class="nav-item nav-link " href="{{url('wishlist')}}">Wishlist</a>
+            <a class="nav-item nav-link" href="{{url('cart')}}">Cart
+            <span class="badge badge-pill bg-primary">{{\App\Models\Cart::where('user_id',\Illuminate\Support\Facades\Auth::id())->count() }}</span></a>
+            <a class="nav-item nav-link " href="{{url('wishlist')}}">Wishlist
+                <span class="badge badge-pill bg-success">{{\App\Models\Wishlist::where('user_id',\Illuminate\Support\Facades\Auth::id())->count()}}</span></a>
             @guest
             @if (Route::has('login'))
                 <li class="nav-item">
@@ -121,6 +125,7 @@
         <main class="py-4">
             @yield('content')
         </main>
+
 @yield('script')
 </body>
 </html>

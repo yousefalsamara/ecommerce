@@ -57,6 +57,8 @@ Route::middleware(['auth'])->group(function (){
     Route::get('view-order/{id}','website\UserController@show');
     Route::get('wishlist','website\WishlistController@index');
 
+    Route::post('proceed-to-pay','website\CheckoutController@razorpaycheck');
+
 
 
 
@@ -65,3 +67,4 @@ Route::post('add_to_cart','website\CartController@addproduct');
 Route::post('delete-cart-item','website\CartController@deleteproduct');
 Route::post('update-cart','website\CartController@updatecart');
 Route::post('/add_to_wishlist','website\WishlistController@add');
+Route::post('delete-wishlist-item','website\WishlistController@delete');

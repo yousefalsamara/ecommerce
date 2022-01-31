@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\User;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use phpDocumentor\Reflection\Types\Null_;
@@ -34,7 +35,7 @@ class CheckoutController extends Controller
     public function placeorder(Request $request)
     {
         $order = new Order();
-        $order->user_id=Auth::id();
+        $order->user_id = Auth::id();
         $order->fname = $request->input('fname');
         $order->lname = $request->input('lname');
         $order->email = $request->input('email');
@@ -45,16 +46,18 @@ class CheckoutController extends Controller
         $order->country = $request->input('country');
         $order->state = $request->input('state');
         $order->pincode = $request->input('pincode');
+        $order->payment_mode = $request->input('payment_mode');
+        $order->payment_id = $request->input('payment_id');
 
 
-        $total=0;
-        $cartitems_total=Cart::where('user_id',Auth::id())->get();
-        foreach ($cartitems_total as $prod){
-            $total +=$prod->Products->selling_price *$prod->prod_qty;
+        $total = 0;
+        $cartitems_total = Cart::where('user_id', Auth::id())->get();
+        foreach ($cartitems_total as $prod) {
+            $total += $prod->Products->selling_price * $prod->prod_qty;
 
             //$total += $item->products->selling_price * $item->prod_qty
         }
-        $order->total_price=$total;
+        $order->total_price = $total;
 
         $order->tracking_no = 'sharma' . rand(1111, 9999);
         $order->save();
@@ -69,8 +72,8 @@ class CheckoutController extends Controller
 
 
             ]);
-            $prod=Product::where('id',$item->prod_id)->first();
-            $prod->qty=$prod->qty - $item->prod_qty;;
+            $prod = Product::where('id', $item->prod_id)->first();
+            $prod->qty = $prod->qty - $item->prod_qty;;
             $prod->update();
 
 
@@ -91,6 +94,46 @@ class CheckoutController extends Controller
         }
         $cartitems = Cart::where('user_id', Auth::id())->get();
         Cart::destroy($cartitem);
-        return redirect('front')->with('status',"order placed Successfully");
+        if($request->input('payment_mode')=="paid by Razorpay"){
+            return \response()->json(['status'=> "order placed Successfully"]);
+        }
+        return redirect('front')->with('status', "order placed Successfully");
+    }
+
+
+    public function razorpaycheck(Request $request)
+    {
+        $cartitems = Cart::where('user_id', Auth::id())->get();
+        $totle_price = 0;
+        foreach ($cartitems as $item) {
+            $totle_price += $item->products->selling_price * $item->prod_qty;
+        }
+        $firstname = $request->input('firstname');
+        $lastname = $request->input('lastname');
+        $email = $request->input('email');
+        $phone = $request->input('phone');
+        $address1 = $request->input('address1');
+        $address2 = $request->input('address2');
+        $city = $request->input('city');
+        $state = $request->input('state');
+        $country = $request->input('country');
+        $pincode = $request->input('pincode');
+
+        return response()->json([
+
+            'firstname' => $firstname,
+            'lastname' => $lastname,
+            'email' => $email,
+            'phone' => $phone,
+            'address1' => $address1,
+            'address2' => $address2,
+            'city' => $city,
+            'state' => $state,
+            'country' => $country,
+            'pincode' => $pincode,
+            'totle_price' => $totle_price
+        ]);
+
+
     }
 }
