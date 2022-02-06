@@ -16,8 +16,10 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
-    <!-- Styles -->
 
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Styles -->
+    <link href="{{asset('frontend/css/custom.css')}}" rel="stylesheet">
     <link href="{{ asset('frontend/css/owl.carousel.min.css') }}" rel="stylesheet">
     <link href="{{ asset('frontend/css/owl.theme.default.min.css') }}" rel="stylesheet">
 {{--    <link href="{{ asset('css/app.css') }}" rel="stylesheet">--}}

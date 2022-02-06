@@ -59,6 +59,8 @@ Route::middleware(['auth'])->group(function (){
 
     Route::post('proceed-to-pay','website\CheckoutController@razorpaycheck');
 
+    Route::post('/add-rating','website\RatingController@add');
+
 
 
 
