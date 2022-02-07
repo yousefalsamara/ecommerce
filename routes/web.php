@@ -47,6 +47,8 @@ Route::get('front','website\FrontendController@index');
 Route::get('category','website\FrontendController@indexcategory');
 Route::get('category/{slug}','website\FrontendController@categoryproduct');
 Route::get('category/{cate_slug}/{prod_slug}','website\FrontendController@productview');
+Route::get('product-list','website\FrontendController@productlistAjax');
+Route::post('searchproduct','website\FrontendController@searchproduct');
 
 Route::middleware(['auth'])->group(function (){
 

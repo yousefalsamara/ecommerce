@@ -27,7 +27,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <!-- JavaScript Bundle with Popper -->
 
-
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
 
 {{-- <script src="{{asset('frontend/js/jquery-3.6.0.min.js')}}"></script>--}}
 {{--    <script src="{{asset('frontend/js/owl.carousel.min.js')}}"></script>--}}
@@ -60,6 +60,34 @@
 <script src="{{asset('frontend/js/owl.carousel.min.js')}}"></script>
 <script src="{{asset('frontend/js/custom.js')}}"></script>
 <script src="{{asset('frontend/js/checkout.js')}}"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+<script>
+
+        var availableTags = [];
+
+        $.ajax({
+           method:"GET",
+           url:"/product-list",
+           success: function (response) {
+               // console.log(response);
+               startAutoComplete(response);
+
+           }
+
+        });
+
+        function startAutoComplete(availableTags){
+
+            $( "#search_product" ).autocomplete({
+                source: availableTags
+            });
+
+        }
+
+
+
+</script>
+
 
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -70,7 +98,23 @@
 @endif
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#">E-SHOP</a>
+
+    <div class="search-bar">
+        <form action="{{url('searchproduct')}}" method="POST">
+            @csrf
+    <div class="input-group">
+
+            <button type="submit" class="input-group-text"><i class="fa fa-search"></i></button>
+
+        <input type="search" id="search_product" name="product_title" required class="form-control" placeholder="Search Product"  aria-describedby="basic-addon1">
+    </div>
+        </form>
+    </div>
+
+
+
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
