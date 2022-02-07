@@ -60,6 +60,10 @@ Route::middleware(['auth'])->group(function (){
     Route::post('proceed-to-pay','website\CheckoutController@razorpaycheck');
 
     Route::post('/add-rating','website\RatingController@add');
+    Route::get('add-review/{product_slug}/userreview','website\ReviewController@add');
+    Route::post('/add-review','website\ReviewController@create');
+    Route::get('edit-review/{product_slug}/userreview','website\ReviewController@edit');
+    Route::put('update-review','website\ReviewController@update');
 
 
 

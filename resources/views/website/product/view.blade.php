@@ -140,6 +140,7 @@
                         </div>
 
                 </div>
+
                 <div class="col-md-12">
                     <hr>
                     <h3>Description</h3>
@@ -152,10 +153,62 @@
 
                 </div>
                 <hr>
-                <div class="col-md-12">
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
                     <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Rate this Product
                     </button>
+
+                    <a href="{{url('add-review/'.$product->slug.'/userreview')}}" class="btn btn-link" >
+                        Write a review
+                    </a>
+
+                </div>
+                <div class="col-md-8">
+                    @foreach($reviews as $item)
+                        <div class="user-review">
+
+
+
+
+
+                    <label for="">{{$item->user->name.' '.$item->user->lname}}</label>
+                            @if($item->user_id== \Illuminate\Support\Facades\Auth::id())
+
+                    <a href=" {{url('edit-review/'.$product->slug.'/userreview')}}">edit</a>
+                            @endif
+                    <br>
+                            @php
+                              $rating=\App\Models\Rating::where('prod_id',$product->id)->where('user_id',$item->user->id)->first();
+                                    @endphp
+                           @if($rating)
+                            @php $user_rated=$rating->stars_rated @endphp
+
+
+                                @for($i=1 ;$i<=$user_rated;$i++)
+                                    <i class="fa fa-star checked"></i>
+                                @endfor
+
+                                @for($j=$user_rated+1;$j<=5;$j++)
+                                    <i class="fa fa-star"></i>
+                                @endfor
+                            @endif
+
+                    <small>Reviewed on {{$item->created_at->format('d M Y')}}</small>
+                    <p>
+                       {{$item->user_review}}
+                    </p>
+                        </div>
+                    @endforeach
+
+                </div>
+
+
+            </div>
+
+
                 </div>
 
 
